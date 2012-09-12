@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+
+    <string name="app_name">Android Event Publisher</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_event_publisher">EventPublisherActivity</string>
+    <string name="user_id">User ID</string>
+    <string name="use_bluetooth">Use bluetooth when available</string>
+    <string name="save_config">Save configuration</string>
+    <string name="minimize">Minimize</string>
+    <string name="configuration">Configuration</string>
+    <string name="app_title">Event Publisher configuration</string>
+    
+    <string name="sendEventUrl">http://localhost:8080/p3bi/sendEvent</string>
+    <string name="bluetoothServer">someName</string>
+
+    <string name="config_connection_button">Configure connection</string>
+    <string name="config_user_data_button">Configure user data</string>
+    <string name="event_list_button">Event list</string>
+
+	<string name="connection_conf_title">Connection configuration</string>
+	<string name="http_layout_title">HTTP config:</string>
+	<string name="tcp_layout_title">TCP/IP config:</string>
+	<string name="bluetooth_layout_title">Bluetooth config:</string>
+	
+    <string name="event_list_title">Sent events list</string>
+    <string name="event_list_userId_column">User ID</string>
+    <string name="event_list_key_column">Event Type</string>
+    <string name="event_list_databutton_column">Actions</string>
+    <string name="event_list_databutton_text">show data</string>
+    
+    <string name="go_back">Go back</string>
+
+    <string-array name="connection_scheme_array">
+        <item>Bluetooth</item>
+        <item>TCP socket</item>
+        <item>HTTP</item>
+    </string-array>
+    <string name="bluetooth_server_param">Bluetooth server</string>
+    <string name="bluetooth_submit_button">Submit</string>
+    
+    <string name="tcp_ip_server_param">TCP server</string>
+    <string name="tcp_ip_port_param">Port number</string>
+    <string name="tcp_submit_button">Submit</string>
+    
+    <string name="http_url_param">URL</string>
+    <string name="http_submit_button">Submit</string>
+    
+    <string name="no_events_to_display">No events to display</string>
+</resources>

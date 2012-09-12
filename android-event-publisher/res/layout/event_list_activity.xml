@@ -1,0 +1,42 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:orientation="vertical" >
+
+   	<TextView
+       android:id="@+id/title"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:text="@string/app_title"
+       android:textAppearance="?android:attr/textAppearanceLarge" />
+
+   	<TextView
+       android:id="@+id/space"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:text=""
+       android:textAppearance="?android:attr/textAppearanceMedium" />
+
+   	<TextView
+       android:id="@+id/eventListTitle"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:text="@string/event_list_title"
+       android:textAppearance="?android:attr/textAppearanceMedium" />
+   	
+   	<TableLayout
+   	    android:id="@+id/eventListTable"
+   	    android:layout_width="fill_parent"
+   	    android:layout_height="wrap_content">
+   	</TableLayout>
+		        
+    <Button
+        android:id="@+id/eventListGoBackButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/go_back" />
+    
+</LinearLayout>

@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:orientation="vertical" >
+
+   	<TextView
+       android:id="@+id/title"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:text="@string/app_title"
+       android:textAppearance="?android:attr/textAppearanceLarge" />
+
+   	<TextView
+       android:id="@+id/space"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:text=""
+       android:textAppearance="?android:attr/textAppearanceLarge" />
+   	        
+    <Button
+        android:id="@+id/configUserDataButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/config_user_data_button" />
+
+    <Button
+        android:id="@+id/configConnectionButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/config_connection_button"/>
+
+    <Button
+        android:id="@+id/eventListButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/event_list_button"/>
+    
+    <Button
+        android:id="@+id/minimizeButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/minimize" />
+    
+    
+</LinearLayout>
