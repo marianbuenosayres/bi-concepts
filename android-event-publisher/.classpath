@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry including="**/*.java" kind="src" path="src"/>
-	<classpathentry including="**/*.java" kind="src" path="target/generated-sources/r"/>
-	<classpathentry including="**/*.java" kind="src" path="target/generated-sources/aidl"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="M2_REPO/com/google/android/android/4.0.1.2/android-4.0.1.2.jar"/>
 	<classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar"/>
@@ -28,5 +27,5 @@
 	<classpathentry kind="var" path="M2_REPO/org/eclipse/jetty/jetty-io/8.1.0.RC5/jetty-io-8.1.0.RC5.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/eclipse/jetty/jetty-util/8.1.0.RC5/jetty-util-8.1.0.RC5.jar"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="output" path="target/classes"/>
+	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
