@@ -15,7 +15,6 @@ public class LogEventSender implements EventSender {
 		this.decorated = eventSender;
 	}
 
-	@Override
 	public void sendEvent(String userId, String json) {
 		Map<String, float[]> data = JSONConverter.toValuesFromJson(json);
 		Iterator<String> it = data.keySet().iterator();

@@ -25,12 +25,10 @@ public class MainMenuActivity extends Activity implements ServiceConnection {
 	private SendEventService senderService = null;
 	private boolean serviceBound = false;
 	
-	@Override
 	public void onServiceDisconnected(ComponentName name) {
 		this.senderService = null;
 	}
 	
-	@Override
 	public void onServiceConnected(ComponentName name, IBinder service) {
 		SendEventService.MBinder binder = (SendEventService.MBinder) service;
 		this.senderService = binder.getService();
@@ -56,28 +54,24 @@ public class MainMenuActivity extends Activity implements ServiceConnection {
 
 		Button configUserDataButton = (Button) findViewById(R.id.configUserDataButton);
 		configUserDataButton.setOnClickListener(new View.OnClickListener() {
-			@Override
 			public void onClick(View v) {
 				startUserData();
 			}
 		});
 		Button configConnectionButton = (Button) findViewById(R.id.configConnectionButton);
 		configConnectionButton.setOnClickListener(new View.OnClickListener() {
-			@Override
 			public void onClick(View v) {
 				startConnection();
 			}
 		});
 		Button eventListButton = (Button) findViewById(R.id.eventListButton);
 		eventListButton.setOnClickListener(new View.OnClickListener() {
-			@Override
 			public void onClick(View v) {
 				startEventList();
 			}
 		});
         Button minimize = (Button) findViewById(R.id.minimizeButton);
         minimize.setOnClickListener(new View.OnClickListener() {
-			@Override
 			public void onClick(View v) {
 				moveTaskToBack(true);
 			}

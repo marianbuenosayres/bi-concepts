@@ -36,7 +36,6 @@ public class EventMessage implements Externalizable {
 		this.json = json;
 	}
 
-	@Override
 	public void readExternal(ObjectInput input) throws IOException {
 		boolean hasValue = input.readBoolean();
 		this.userId = hasValue ? input.readUTF() : null;
@@ -44,7 +43,6 @@ public class EventMessage implements Externalizable {
 		this.json = hasValue ? input.readUTF() : null;
 	}
 
-	@Override
 	public void writeExternal(ObjectOutput output) throws IOException {
 		output.writeBoolean(this.userId != null);
 		if (this.userId != null) {

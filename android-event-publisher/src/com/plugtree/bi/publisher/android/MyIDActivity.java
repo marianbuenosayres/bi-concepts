@@ -26,7 +26,6 @@ public class MyIDActivity extends Activity {
         
         Button submitButton = (Button) findViewById(R.id.userDataSubmitButton);
 		submitButton.setOnClickListener(new View.OnClickListener() {
-			@Override
 			public void onClick(View view) {
 				String userId = userIdText.getText().toString();
 				EventPublisherConfig.instance().setUserId(userId);
@@ -35,7 +34,6 @@ public class MyIDActivity extends Activity {
 		});
 		Button backButton = (Button) findViewById(R.id.userDataBackButton);
 		backButton.setOnClickListener(new View.OnClickListener() {
-			@Override
 			public void onClick(View v) {
 				endWithResult();
 			}

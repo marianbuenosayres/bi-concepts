@@ -55,7 +55,6 @@ public class EventListActivity extends Activity {
 	        	Button button = new Button(getApplicationContext());
 	        	button.setText(R.string.event_list_databutton_text);
 	        	button.setOnClickListener(new View.OnClickListener() {
-					@Override
 					public void onClick(View v) {
 						showAlert("Data", event.getData());
 					}
@@ -74,7 +73,6 @@ public class EventListActivity extends Activity {
         
         Button backButton = (Button) findViewById(R.id.eventListGoBackButton);
 		backButton.setOnClickListener(new View.OnClickListener() {
-			@Override
 			public void onClick(View view) {
 				endWithResult();
 			}
@@ -119,7 +117,6 @@ public class EventListActivity extends Activity {
     		setTitle(title).
     		setMessage(message.toString()).
     		setPositiveButton("OK", new DialogInterface.OnClickListener() {
-    			@Override
     			public void onClick(DialogInterface dialog, int which) {
     				dialog.cancel();
     			}

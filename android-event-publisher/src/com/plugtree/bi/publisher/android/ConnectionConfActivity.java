@@ -39,14 +39,12 @@ public class ConnectionConfActivity extends Activity implements AdapterView.OnIt
 		
         Button backButton = (Button) findViewById(R.id.connectionConfGoBackButton);
 		backButton.setOnClickListener(new View.OnClickListener() {
-			@Override
 			public void onClick(View view) {
 				endWithResult();
 			}
 		});
 	}
 
-	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 		String selectedItem = parent.getSelectedItem().toString();
 		start(selectedItem);
@@ -62,7 +60,6 @@ public class ConnectionConfActivity extends Activity implements AdapterView.OnIt
         }
 	}
 	
-	@Override
 	public void onNothingSelected(AdapterView<?> parent) { }
 
 	public void startBluetoothLayout() {
@@ -88,7 +85,6 @@ public class ConnectionConfActivity extends Activity implements AdapterView.OnIt
 		submitButton.setLayoutParams(params);
 		submitButton.setText(R.string.bluetooth_submit_button);
 		submitButton.setOnClickListener(new View.OnClickListener() {
-			@Override
 			public void onClick(View view) {
 				String bluetoothServer = serverText.getText().toString();
 				EventPublisherConfig.instance().setScheme("bluetooth");
@@ -140,7 +136,6 @@ public class ConnectionConfActivity extends Activity implements AdapterView.OnIt
 		submitButton.setLayoutParams(params);
 		submitButton.setText(R.string.tcp_submit_button);
 		submitButton.setOnClickListener(new View.OnClickListener() {
-			@Override
 			public void onClick(View view) {
 				String tcpServer = serverText.getText().toString();
 				String tcpPort = portText.getText().toString();
@@ -183,7 +178,6 @@ public class ConnectionConfActivity extends Activity implements AdapterView.OnIt
 		submitButton.setLayoutParams(params);
 		submitButton.setText(R.string.http_submit_button);
 		submitButton.setOnClickListener(new View.OnClickListener() {
-			@Override
 			public void onClick(View view) {
 				String url = urlText.getText().toString();
 				EventPublisherConfig.instance().setScheme("http");

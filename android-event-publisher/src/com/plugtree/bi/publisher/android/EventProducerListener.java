@@ -21,10 +21,8 @@ public class EventProducerListener implements SensorEventListener, LocationListe
 		this.config = config;
 	}
 
-	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) { }
 
-	@Override
 	public void onSensorChanged(SensorEvent event) {
 		Map<String, float[]> data = new HashMap<String, float[]>();
 		if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
@@ -57,7 +55,6 @@ public class EventProducerListener implements SensorEventListener, LocationListe
         config.getEventSender().sendEvent(config.getUserId(), JSONConverter.toJsonFromValues(data));
 	}
 
-	@Override
 	public void onLocationChanged(Location location) {
 		Map<String, float[]> data = new HashMap<String, float[]>();
 		data.put("gpsLatitude", new float[] { (float) location.getLatitude() });
@@ -78,13 +75,10 @@ public class EventProducerListener implements SensorEventListener, LocationListe
         config.getEventSender().sendEvent(config.getUserId(), JSONConverter.toJsonFromValues(data));
 	}
 
-	@Override
 	public void onProviderDisabled(String provider) { }
 
-	@Override
 	public void onProviderEnabled(String provider) { }
 
-	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) { }
 
 }

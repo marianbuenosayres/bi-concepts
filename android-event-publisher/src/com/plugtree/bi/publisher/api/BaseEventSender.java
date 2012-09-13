@@ -24,7 +24,6 @@ public abstract class BaseEventSender implements EventSender, Runnable {
 		super.finalize();
 	}
 
-	@Override
 	public void run() {
 		EventMessage msg = eventGroup.poll();
 		while(!popEvent(msg)) {
@@ -34,8 +33,6 @@ public abstract class BaseEventSender implements EventSender, Runnable {
 		}
 	}
 	
-	
-	@Override
 	public void sendEvent(String userId, String json) {
 		this.eventGroup.add(new EventMessage(userId, json));
 	}
