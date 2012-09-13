@@ -39,11 +39,6 @@
             </intent-filter>
         </activity>
         <service android:name=".SendEventService" android:exported="false"/>
-
-        <uses-library android:name="android.test.runner"/>
     </application>
-
-    <instrumentation android:name="android.test.InstrumentationTestRunner"
-       android:targetPackage="com.plugtree.bi.publisher.android" android:label="Tests for My App" />
 
 </manifest>
