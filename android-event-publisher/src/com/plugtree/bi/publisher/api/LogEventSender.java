@@ -1,5 +1,6 @@
 package com.plugtree.bi.publisher.api;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,16 @@ public class LogEventSender implements EventSender {
 	@Override
 	public void sendEvent(String userId, String json) {
 		Map<String, float[]> data = JSONConverter.toValuesFromJson(json);
-		String key = data.keySet().iterator().next();
+		Iterator<String> it = data.keySet().iterator();
+		String key = it.next();
+		if (key.startsWith("gps")) {
+			key = "gps";
+		} else if (key.startsWith("sensor")) {
+			if ("startTime".equals(key)) {
+				key = it.next();
+			}
+			key = key.replace("sensor", "").toLowerCase();
+		}
 		events.add(new EventRow(userId, key, data));
 		if (this.decorated != null) {
 			this.decorated.sendEvent(userId, json);

@@ -37,13 +37,22 @@ public class EventListActivity extends Activity {
         if (eventSender != null) {
         	table.addView(createHeader());
         	List<EventRow> events = eventSender.getEvents();
+        	
+        	TableLayout.LayoutParams params = new TableLayout.LayoutParams();
+        	params.width = TableLayout.LayoutParams.FILL_PARENT;
+        	params.height = TableLayout.LayoutParams.WRAP_CONTENT;
+        	params.rightMargin = 3;
+        	params.leftMargin = 3;
+        	
 	        for (final EventRow event : events) {
-	        	TableRow row = new TableRow(this);
-	        	TextView userId = new TextView(this);
+	        	TableRow row = new TableRow(getApplicationContext());
+	        	row.setLayoutParams(params);
+	        	
+	        	TextView userId = new TextView(getApplicationContext());
 	        	userId.setText(event.getUserId());
-	        	TextView key = new TextView(this);
+	        	TextView key = new TextView(getApplicationContext());
 	        	key.setText(event.getKey());
-	        	Button button = new Button(this);
+	        	Button button = new Button(getApplicationContext());
 	        	button.setText(R.string.event_list_databutton_text);
 	        	button.setOnClickListener(new View.OnClickListener() {
 					@Override
@@ -73,16 +82,20 @@ public class EventListActivity extends Activity {
     }
 
 	private TableRow createHeader() {
-		TableRow header = new TableRow(this);
-		TextView header1 = new TextView(this);
-		header1.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+		TableRow header = new TableRow(getApplicationContext());
+		TableRow.LayoutParams params = new TableRow.LayoutParams();
+		header.setBackgroundColor(getResources().getColor(R.color.silver));
+		params.leftMargin = 3;
+		params.rightMargin = 3;
+		TextView header1 = new TextView(getApplicationContext());
 		header1.setText(R.string.event_list_userId_column);
-		TextView header2 = new TextView(this);
-		header2.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+		header1.setLayoutParams(params);
+		TextView header2 = new TextView(getApplicationContext());
 		header2.setText(R.string.event_list_key_column);
-		TextView header3 = new TextView(this);
-		header3.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+		header2.setLayoutParams(params);
+		TextView header3 = new TextView(getApplicationContext());
 		header3.setText(R.string.event_list_databutton_column);
+		header3.setLayoutParams(params);
 		header.addView(header1);
 		header.addView(header2);
 		header.addView(header3);
@@ -90,21 +103,27 @@ public class EventListActivity extends Activity {
 	}
 
     protected void showAlert(String title, Map<String, float[]> data) {
-    	StringBuilder message = new StringBuilder("values: ");
-    	float[] values = data.values().iterator().next();
-    	for (int index = 0; index < values.length; index++) {
-    		message.append(values[index]);
-    		if (index + 1 < values.length) {
-    			message.append(", ");
-    		}
+    	StringBuilder message = new StringBuilder("");
+    	for (Map.Entry<String, float[]> entry : data.entrySet()) {
+    		message.append(entry.getKey() + ": ");
+    		float[] values = entry.getValue();
+        	for (int index = 0; index < values.length; index++) {
+        		message.append(values[index]);
+        		if (index + 1 < values.length) {
+        			message.append(", ");
+        		}
+        	}
+        	message.append(". ");
     	}
-    	new AlertDialog.Builder(this).setTitle(title).setMessage(message.toString()).
+    	new AlertDialog.Builder(this).
+    		setTitle(title).
+    		setMessage(message.toString()).
     		setPositiveButton("OK", new DialogInterface.OnClickListener() {
-    		@Override
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.cancel();
-			}
-		}).create().show();
+    			@Override
+    			public void onClick(DialogInterface dialog, int which) {
+    				dialog.cancel();
+    			}
+    		}).create().show();
     }
     
 	protected void endWithResult() {

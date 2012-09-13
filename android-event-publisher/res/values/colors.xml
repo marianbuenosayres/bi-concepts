@@ -1,4 +1,5 @@
 <resources>
     <color name="white">#ffffffff</color>
     <color name="black">#ff000000</color>
+    <color name="silver">#999999</color>
 </resources>
