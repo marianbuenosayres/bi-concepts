@@ -41,6 +41,7 @@ public class InternetEventSender extends BaseEventSender {
             connection.setRequestProperty("Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.3");
             connection.setRequestProperty("Connection", "keep-alive");
             connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Content-Length", String.valueOf(msg.getJson().length()));
             connection.connect();
             
             PrintWriter writer = null;

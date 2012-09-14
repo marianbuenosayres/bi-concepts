@@ -1,12 +1,11 @@
 package com.plugtree.bi.publisher.api;
 
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public abstract class BaseEventSender implements EventSender, Runnable {
 
-	private final Queue<EventMessage> eventGroup = new LinkedList<EventMessage>();
+	private final LinkedBlockingQueue<EventMessage> eventGroup = new LinkedBlockingQueue<EventMessage>();
 	private final Thread service;
 	
 	public BaseEventSender() {
@@ -25,10 +24,14 @@ public abstract class BaseEventSender implements EventSender, Runnable {
 	}
 
 	public void run() {
-		EventMessage msg = eventGroup.poll();
-		while(!popEvent(msg)) {
+		while (true) {
 			try {
-				Thread.sleep(500);
+				EventMessage msg = eventGroup.take();
+				while(!popEvent(msg)) {
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {	}
+				}
 			} catch (InterruptedException e) {	}
 		}
 	}
