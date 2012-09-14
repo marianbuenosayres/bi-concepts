@@ -1,0 +1,15 @@
+package com.plugtree.bi.cep;
+
+import com.plugtree.bi.cep.CEPEvent;
+
+declare CEPEvent
+	@role(event)
+	@timestamp(time)
+end
+
+rule "test"
+when
+	CEPEvent(gpsAltitude > 20.0f)
+then
+	System.out.println("RULE");
+end

@@ -1,13 +1,22 @@
 package com.plugtree.bi.cep;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
-public class CEPEvent {
+public class CEPEvent implements Map<String, Object> {
 
 	private final Map<String, Object> map = new HashMap<String, Object>();
+	private long time;
+
+	public long getTime() {
+		return time;
+	}
+
+	public void setTime(long time) {
+		this.time = time;
+	}
 
 	public boolean isEmpty() {
 		return map.isEmpty();
@@ -43,6 +52,18 @@ public class CEPEvent {
 
 	public Set<Entry<String, Object>> entrySet() {
 		return map.entrySet();
+	}
+
+	public int size() {
+		return map.size();
+	}
+
+	public Object remove(Object key) {
+		return map.remove(key);
+	}
+
+	public Collection<Object> values() {
+		return map.values();
 	}
 
 	@Override
