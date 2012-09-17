@@ -1,88 +1,63 @@
 package com.plugtree.bi.cep;
 
-import java.util.Collection;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-public class CEPEvent implements Map<String, Object> {
+public class CEPEvent implements Externalizable {
 
-	private final Map<String, Object> map = new HashMap<String, Object>();
-	private long time;
+	public static final String TIME_KEY = "time";
+	
+	private final Map<String, Serializable> payload = new HashMap<String, Serializable>();
+	private final Map<String, Serializable> metadata = new HashMap<String, Serializable>();
 
 	public long getTime() {
-		return time;
+		return Long.valueOf(String.valueOf(metadata.get(TIME_KEY)));
 	}
 
 	public void setTime(long time) {
-		this.time = time;
+		metadata.put(TIME_KEY, String.valueOf(time));
 	}
 
-	public boolean isEmpty() {
-		return map.isEmpty();
+	public Map<String, Serializable> getPayload() {
+		return payload;
 	}
 
-	public boolean containsKey(Object key) {
-		return map.containsKey(key);
+	public Map<String, Serializable> getMetadata() {
+		return metadata;
 	}
 
-	public boolean containsValue(Object value) {
-		return map.containsValue(value);
+	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+		payload.clear();
+		int sizePayload = in.readInt();
+		for (int index = 0; index < sizePayload; index++) {
+			String key = in.readUTF();
+			Serializable value = (Serializable) in.readObject();
+			payload.put(key, value);
+		}
+		metadata.clear();
+		int sizeMetadata = in.readInt();
+		for (int index = 0; index < sizeMetadata; index++) {
+			String key = in.readUTF();
+			Serializable value = (Serializable) in.readObject();
+			metadata.put(key, value);
+		}
 	}
-
-	public Object get(Object key) {
-		return map.get(key);
-	}
-
-	public Object put(String key, Object value) {
-		return map.put(key, value);
-	}
-
-	public void putAll(Map<? extends String, ? extends Object> m) {
-		map.putAll(m);
-	}
-
-	public void clear() {
-		map.clear();
-	}
-
-	public Set<String> keySet() {
-		return map.keySet();
-	}
-
-	public Set<Entry<String, Object>> entrySet() {
-		return map.entrySet();
-	}
-
-	public int size() {
-		return map.size();
-	}
-
-	public Object remove(Object key) {
-		return map.remove(key);
-	}
-
-	public Collection<Object> values() {
-		return map.values();
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((map == null) ? 0 : map.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (getClass() != obj.getClass()) return false;
-		CEPEvent other = (CEPEvent) obj;
-		if (map == null) {
-			if (other.map != null) return false;
-		} else if (!map.equals(other.map)) return false;
-		return true;
+	
+	public void writeExternal(ObjectOutput out) throws IOException {
+		out.writeInt(payload.size());
+		for (Map.Entry<String, Serializable> entry : payload.entrySet()) {
+			out.writeUTF(entry.getKey());
+			out.writeObject(entry.getValue());
+		}
+		out.writeInt(metadata.size());
+		for (Map.Entry<String, Serializable> entry : metadata.entrySet()) {
+			out.writeUTF(entry.getKey());
+			out.writeObject(entry.getValue());
+		}
 	}
 }

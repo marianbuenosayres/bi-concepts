@@ -79,7 +79,7 @@ public class EventsServlet extends HttpServlet {
 	
 	protected CEPEvent asEvent(String userId, Map<String, float[]> data) {
 		CEPEvent event = new CEPEvent();
-		event.put("userId", userId);
+		event.getPayload().put("userId", userId);
 		boolean timeSet = false;
 		if (data != null) {
 			for (Map.Entry<String, float[]> entry : data.entrySet()) {
@@ -90,14 +90,14 @@ public class EventsServlet extends HttpServlet {
 				}
 				if (entry.getValue() != null) {
 					if (entry.getValue().length == 0) {
-						event.put(key, null);
+						event.getPayload().put(key, null);
 					} else if (entry.getValue().length == 1) {
 						Float value = Float.valueOf(entry.getValue()[0]);
-						event.put(key, value);
+						event.getPayload().put(key, value);
 					} else {
 						for (int index = 0; index < entry.getValue().length; index++) {
 							Float value = Float.valueOf(entry.getValue()[index]);
-							event.put(key + index, value);
+							event.getPayload().put(key + index, value);
 						}
 					}
 				}

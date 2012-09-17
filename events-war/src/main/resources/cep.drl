@@ -9,7 +9,7 @@ end
 
 rule "test"
 when
-	CEPEvent(gpsAltitude > 20.0f)
+	CEPEvent(payload.gpsAltitude > 20.0f)
 then
 	System.out.println("RULE");
 end

@@ -14,7 +14,7 @@ public class CEPServiceTest {
 		
 		CEPEvent event = new CEPEvent();
 		event.setTime(System.currentTimeMillis());
-		event.put("gpsAltitude", Float.valueOf(30.f));
+		event.getPayload().put("gpsAltitude", Float.valueOf(30.f));
 		service.insert(event);
 		
 		Thread.sleep(200);
