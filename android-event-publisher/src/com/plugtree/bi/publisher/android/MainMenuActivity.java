@@ -14,16 +14,16 @@ import android.widget.Button;
 
 import com.plugtree.bi.publisher.api.EventPublisherConfig;
 
-public class MainMenuActivity extends Activity implements ServiceConnection {
+public class MainMenuActivity extends Activity implements ServiceConnection, IsVisibleActivity {
 
 	private static final int USER_DATA_REQUEST = 1;
 	private static final int CONNECTION_CONF_REQUEST = 2;
 	private static final int EVENT_LIST_REQUEST = 3;
 
-	
 	private EventPublisherConfig config = EventPublisherConfig.instance();
 	private SendEventService senderService = null;
 	private boolean serviceBound = false;
+	private boolean visible = false;
 	
 	public void onServiceDisconnected(ComponentName name) {
 		this.senderService = null;
@@ -52,6 +52,8 @@ public class MainMenuActivity extends Activity implements ServiceConnection {
 			config.setScheme(savedInstanceState.getString("scheme"));
     	}
 
+    	visible = true;
+    	
 		Button configUserDataButton = (Button) findViewById(R.id.configUserDataButton);
 		configUserDataButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -73,7 +75,7 @@ public class MainMenuActivity extends Activity implements ServiceConnection {
         Button minimize = (Button) findViewById(R.id.minimizeButton);
         minimize.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				moveTaskToBack(true);
+				minimize();
 			}
 		});
         
@@ -98,6 +100,12 @@ public class MainMenuActivity extends Activity implements ServiceConnection {
 		startActivityForResult(new Intent(MainMenuActivity.this, EventListActivity.class), EVENT_LIST_REQUEST);
 	}
 	
+	public void minimize() {
+		visible = false;
+		new BackgroundTask(getApplicationContext(), this).execute(0);
+		moveTaskToBack(true);
+	}
+
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		outState.putString("userId", config.getUserId());
@@ -118,6 +126,11 @@ public class MainMenuActivity extends Activity implements ServiceConnection {
 				showAlert("Error", "Couldn't find sender service");
 			}
 		}
+	}
+
+	@Override
+	public boolean isVisible() {
+		return visible;
 	}
 	
 	private void showAlert(String title, String message) {

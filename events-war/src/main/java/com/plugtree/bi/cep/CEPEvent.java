@@ -10,17 +10,30 @@ import java.util.Map;
 
 public class CEPEvent implements Externalizable {
 
-	public static final String TIME_KEY = "time";
+	public static final String TIME_KEY = "timestamp";
+	public static final String TYPE_KEY = "type";
+	public static final String SENDER_KEY = "sender";
+	public static final String TTL_KEY = "ttl";
+	public static final String CAUSALITY_KEY = "causality";
+	public static final String UUID_KEY = "uuid";
+	public static final String DEBUGINFO_KEY = "debuginfo";
+	public static final String SECURITYINFO_KEY = "securityinfo";
 	
 	private final Map<String, Serializable> payload = new HashMap<String, Serializable>();
 	private final Map<String, Serializable> metadata = new HashMap<String, Serializable>();
 
+	private final long defaultTime = System.currentTimeMillis();
+	
 	public long getTime() {
-		return Long.valueOf(String.valueOf(metadata.get(TIME_KEY)));
+		return Long.valueOf(String.valueOf(metadata.get(TIME_KEY) == null ? defaultTime : metadata.get(TIME_KEY)));
 	}
 
 	public void setTime(long time) {
 		metadata.put(TIME_KEY, String.valueOf(time));
+	}
+	
+	public long getTtl() {
+		return Long.valueOf(String.valueOf(metadata.get(TTL_KEY)));
 	}
 
 	public Map<String, Serializable> getPayload() {

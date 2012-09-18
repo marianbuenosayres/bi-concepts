@@ -31,6 +31,8 @@
     <string name="event_list_databutton_text">show data</string>
     
     <string name="go_back">Go back</string>
+    <string name="reload_list">Reload list</string>
+    <string name="new_events">New events</string>
 
     <string-array name="connection_scheme_array">
         <item>Bluetooth</item>

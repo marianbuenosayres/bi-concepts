@@ -32,8 +32,24 @@ public class EventListActivity extends Activity {
         setContentView(R.layout.event_list_activity);
         
         final TableLayout table = (TableLayout) findViewById(R.id.eventListTable);
+        loadData(table);
         
-        LogEventSender eventSender = EventPublisherConfig.instance().getLogEventSender();
+        Button backButton = (Button) findViewById(R.id.eventListGoBackButton);
+		backButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View view) {
+				endWithResult();
+			}
+		});
+		Button reloadButton = (Button) findViewById(R.id.eventListReloadButton); 
+		reloadButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View arg0) {
+				loadData(table);
+			}
+		});
+    }
+
+	private void loadData(final TableLayout table) {
+		LogEventSender eventSender = EventPublisherConfig.instance().getLogEventSender();
         if (eventSender != null) {
         	table.addView(createHeader());
         	List<EventRow> events = eventSender.getEvents();
@@ -70,14 +86,7 @@ public class EventListActivity extends Activity {
         	noEvents.setText(R.string.no_events_to_display);
         	table.addView(noEvents);
         }
-        
-        Button backButton = (Button) findViewById(R.id.eventListGoBackButton);
-		backButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View view) {
-				endWithResult();
-			}
-		});
-    }
+	}
 
 	private TableRow createHeader() {
 		TableRow header = new TableRow(getApplicationContext());

@@ -40,4 +40,10 @@
         android:layout_height="wrap_content"
         android:text="@string/go_back" />
     
+    <Button
+        android:id="@+id/eventListReloadButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/reload_list" />
+    
 </LinearLayout>
