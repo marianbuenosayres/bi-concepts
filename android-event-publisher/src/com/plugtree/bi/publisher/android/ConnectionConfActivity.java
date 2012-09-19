@@ -18,6 +18,12 @@ import com.plugtree.bi.publisher.api.EventPublisherConfig;
 
 public class ConnectionConfActivity extends Activity implements AdapterView.OnItemSelectedListener {
 
+	private static final String SCHEME_BLUETOOTH_TEXT = "Bluetooth";
+	private static final String SCHEME_TCP_TEXT = "TCP socket";
+	private static final String SCHEME_HTTP_TEXT = "HTTP";
+	private static final String SCHEME_BLUETOOTH_ID = "bluetooth";
+	private static final String SCHEME_TCP_ID = "tcp";
+	private static final String SCHEME_HTTP_ID = "http";
 	private static final int TCP_IP_SERVER_TEXT_ID = 0x7fff0001;
 	private static final int TCP_IP_PORT_TEXT_ID = 0x7fff0002;
 	private static final int BLUETOOTH_SERVER_TEXT_ID = 0x7fff0003;
@@ -34,9 +40,17 @@ public class ConnectionConfActivity extends Activity implements AdapterView.OnIt
 		combo.setOnItemSelectedListener(this);
 		
 		if (EventPublisherConfig.instance().getScheme() != null) {
-			start(EventPublisherConfig.instance().getScheme());
+			String scheme = EventPublisherConfig.instance().getScheme();
+			if (SCHEME_HTTP_ID.equals(scheme)) {
+				combo.setSelection(comboArray.getPosition(SCHEME_HTTP_TEXT));
+			} else if (SCHEME_TCP_ID.equals(scheme)) {
+				combo.setSelection(comboArray.getPosition(SCHEME_TCP_TEXT));
+			} else if (SCHEME_BLUETOOTH_ID.equals(scheme)) {
+				combo.setSelection(comboArray.getPosition(SCHEME_BLUETOOTH_TEXT));
+			}
+			start(scheme);
 		}
-		
+	
         Button backButton = (Button) findViewById(R.id.connectionConfGoBackButton);
 		backButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
@@ -51,11 +65,11 @@ public class ConnectionConfActivity extends Activity implements AdapterView.OnIt
 	}
 
 	private void start(String selectedItem) {
-		if ("Bluetooth".equalsIgnoreCase(selectedItem)) {
+		if (SCHEME_BLUETOOTH_TEXT.equalsIgnoreCase(selectedItem)) {
         	startBluetoothLayout();
-        } else if ("TCP socket".equalsIgnoreCase(selectedItem)) {
+        } else if (SCHEME_TCP_TEXT.equalsIgnoreCase(selectedItem)) {
         	startTcpLayout();
-        } else if ("HTTP".equalsIgnoreCase(selectedItem)) {
+        } else if (SCHEME_HTTP_TEXT.equalsIgnoreCase(selectedItem)) {
         	startHttpLayout();
         }
 	}
@@ -87,7 +101,7 @@ public class ConnectionConfActivity extends Activity implements AdapterView.OnIt
 		submitButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				String bluetoothServer = serverText.getText().toString();
-				EventPublisherConfig.instance().setScheme("bluetooth");
+				EventPublisherConfig.instance().setScheme(SCHEME_BLUETOOTH_ID);
 				EventPublisherConfig.instance().setBluetoothServer(bluetoothServer);
 				endWithResult();
 			}
@@ -139,7 +153,7 @@ public class ConnectionConfActivity extends Activity implements AdapterView.OnIt
 			public void onClick(View view) {
 				String tcpServer = serverText.getText().toString();
 				String tcpPort = portText.getText().toString();
-				EventPublisherConfig.instance().setScheme("tcp");
+				EventPublisherConfig.instance().setScheme(SCHEME_TCP_ID);
 				EventPublisherConfig.instance().setTcpHost(tcpServer);
 				EventPublisherConfig.instance().setTcpPort(tcpPort);
 				endWithResult();
@@ -180,7 +194,7 @@ public class ConnectionConfActivity extends Activity implements AdapterView.OnIt
 		submitButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				String url = urlText.getText().toString();
-				EventPublisherConfig.instance().setScheme("http");
+				EventPublisherConfig.instance().setScheme(SCHEME_HTTP_ID);
 				EventPublisherConfig.instance().setHttpUrl(url);
 				endWithResult();
 			}

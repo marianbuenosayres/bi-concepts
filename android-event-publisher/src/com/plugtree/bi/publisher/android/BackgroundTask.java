@@ -19,7 +19,7 @@ public class BackgroundTask extends AsyncTask<Object, Object, Object> {
 	private final IsVisibleActivity view;
 	private final NotificationManager manager; 
 	private final EventPublisherConfig config = EventPublisherConfig.instance();
-	private int size = 0;
+	private int size = -1;
 	
 	private static final int NOTIFICATION_ID = 1;
 	
@@ -36,11 +36,12 @@ public class BackgroundTask extends AsyncTask<Object, Object, Object> {
 	protected Object doInBackground(Object... values) {
 		while (!view.isVisible()) {
 			try {
-				Thread.sleep(100);
+				Thread.sleep(1000);
 				LogEventSender logger = config.getLogEventSender();
 				List<EventRow> events = logger.getEvents();
 				if (events.size() != size) {
 					publishProgress(events.size());
+					this.size = events.size();
 				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -62,13 +63,13 @@ public class BackgroundTask extends AsyncTask<Object, Object, Object> {
 			contentText +="s";
 		}
 		
-		Intent notificationIntent = new Intent();
+		Intent intent = new Intent(context, MainMenuActivity.class);
 		int icon = android.R.drawable.stat_sys_upload;
 		String tickerText = context.getString(R.string.app_name); //Initial text that appears in the status bar
         long when = System.currentTimeMillis();
         Notification notification = new Notification(icon, tickerText, when);
 
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, 0);
         notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
         manager.notify(NOTIFICATION_ID, notification);
 	}

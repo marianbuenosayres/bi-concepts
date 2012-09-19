@@ -10,7 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -50,7 +50,8 @@ public class EventListActivity extends Activity {
 
 	private void loadData(final TableLayout table) {
 		LogEventSender eventSender = EventPublisherConfig.instance().getLogEventSender();
-        if (eventSender != null) {
+		table.removeAllViews();
+        if (eventSender != null && eventSender.getEvents() != null && !eventSender.getEvents().isEmpty()) {
         	table.addView(createHeader());
         	List<EventRow> events = eventSender.getEvents();
         	
@@ -82,7 +83,11 @@ public class EventListActivity extends Activity {
 	        }
         } else {
         	TextView noEvents = new TextView(this);
-        	noEvents.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+        	ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
+        			ViewGroup.LayoutParams.FILL_PARENT, 
+        			ViewGroup.LayoutParams.WRAP_CONTENT
+        	);
+        	noEvents.setLayoutParams(params);
         	noEvents.setText(R.string.no_events_to_display);
         	table.addView(noEvents);
         }
