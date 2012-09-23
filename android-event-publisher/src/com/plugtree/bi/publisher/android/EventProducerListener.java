@@ -17,6 +17,8 @@ public class EventProducerListener implements SensorEventListener, LocationListe
 
 	private final EventPublisherConfig config;
 	
+	private Map<String, float[]> lastEvents = new HashMap<String, float[]>();
+	
 	public EventProducerListener(EventPublisherConfig config) {
 		this.config = config;
 	}
@@ -26,53 +28,110 @@ public class EventProducerListener implements SensorEventListener, LocationListe
 	public void onSensorChanged(SensorEvent event) {
 		Map<String, float[]> data = new HashMap<String, float[]>();
 		if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-			data.put("sensorAccelerometer", event.values);
+			if (hasChanged("sensorAccelerometer", event.values)) {
+				data.put("sensorAccelerometer", event.values);
+			}
 		} else if (event.sensor.getType() == Sensor.TYPE_GRAVITY) {
-			data.put("sensorGravity", event.values);
-		} else if (event.sensor.getType() == Sensor.TYPE_GRAVITY) {
-			data.put("sensorGravity", event.values);
+			if (hasChanged("sensorGravity", event.values)) {
+				data.put("sensorGravity", event.values);
+			}
 		} else if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
-			data.put("sensorGyroscope", event.values);
+			if (hasChanged("sensorGyroscope", event.values)) {
+				data.put("sensorGyroscope", event.values);
+			}
 		} else if (event.sensor.getType() == Sensor.TYPE_LIGHT) {
-			data.put("sensorLight", event.values);
+			if (hasChanged("sensorLight", event.values)) {
+				data.put("sensorLight", event.values);
+			}
 		} else if (event.sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
-			data.put("sensorAcceleration", event.values);
+			if (hasChanged("sensorAcceleration", event.values)) {
+				data.put("sensorAcceleration", event.values);
+			}
 		} else if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
-			data.put("sensorMagneticField", event.values);
+			if (hasChanged("sensorMagneticField", event.values)) {
+				data.put("sensorMagneticField", event.values);
+			}
 		} else if (event.sensor.getType() == Sensor.TYPE_ORIENTATION) {
-			data.put("sensorOrientation", event.values);
+			if (hasChanged("sensorOrientation", event.values)) {
+				data.put("sensorOrientation", event.values);
+			}
 		} else if (event.sensor.getType() == Sensor.TYPE_PRESSURE) {
-			data.put("sensorPressure", event.values);
+			if (hasChanged("sensorPressure", event.values)) {
+				data.put("sensorPressure", event.values);
+			}
 		} else if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
-			data.put("sensorProximity", event.values);
+			if (hasChanged("sensorProximity", event.values)) {
+				data.put("sensorProximity", event.values);
+			}
 		} else if (event.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
-			data.put("sensorRotationVector", event.values);
+			if (hasChanged("sensorRotationVector", event.values)) {
+				data.put("sensorRotationVector", event.values);
+			}
 		} else if (event.sensor.getType() == Sensor.TYPE_TEMPERATURE) {
-			data.put("sensorTemperature", event.values);
+			if (hasChanged("sensorTemperature", event.values)) {
+				data.put("sensorTemperature", event.values);
+			}
 		}
-        long time = System.currentTimeMillis();
-        data.put("sensorTime", new float[] {Float.valueOf(time)});
-        config.getEventSender().sendEvent(config.getUserId(), JSONConverter.toJsonFromValues(data));
+		if (!data.isEmpty()) {
+			long time = System.currentTimeMillis();
+			data.put("sensorTime", new float[] {Float.valueOf(time)});
+			config.getEventSender().sendEvent(config.getUserId(), JSONConverter.toJsonFromValues(data));
+		}
 	}
 
 	public void onLocationChanged(Location location) {
 		Map<String, float[]> data = new HashMap<String, float[]>();
-		data.put("gpsLatitude", new float[] { (float) location.getLatitude() });
-		data.put("gpsLongitude", new float[] { (float) location.getLongitude() });
-		if (location.hasAltitude()) {
+		if (hasChanged("gpsLatitude", new float[] { (float) location.getLatitude() })) {
+			data.put("gpsLatitude", new float[] { (float) location.getLatitude() });
+		}
+		if (hasChanged("gpsLongitude", new float[] { (float) location.getLongitude() })) {
+			data.put("gpsLongitude", new float[] { (float) location.getLongitude() });
+		}
+		if (location.hasAltitude() && hasChanged("gpsAltitude", new float[] { (float) location.getAltitude() })) {
 			data.put("gpsAltitude", new float[] { (float) location.getAltitude() });
 		}
-		if (location.hasAccuracy()) {
+		if (location.hasAccuracy() && hasChanged("gpsAccuracy", new float[] { location.getAccuracy() })) {
 			data.put("gpsAccuracy", new float[] { location.getAccuracy() });
 		}
-		if (location.hasSpeed()) {
+		if (location.hasSpeed() && hasChanged("gpsSpeed", new float[] { location.getSpeed() })) {
 			data.put("gpsSpeed", new float[] { location.getSpeed() });
 		}
-		if (location.hasBearing()) {
+		if (location.hasBearing() && hasChanged("gpsBearing", new float[] { location.getBearing() })) {
 			data.put("gpsBearing", new float[] { location.getBearing() });
 		}
-		data.put("gpsTime", new float[] { location.getTime() });
-        config.getEventSender().sendEvent(config.getUserId(), JSONConverter.toJsonFromValues(data));
+		if (!data.isEmpty()) {
+			data.put("gpsTime", new float[] { location.getTime() });
+			config.getEventSender().sendEvent(config.getUserId(), JSONConverter.toJsonFromValues(data));
+		}
+	}
+	
+	/**
+	 * if any of the values change by 0.1%, it is considered as changed 
+	 */
+	protected boolean hasChanged(String key, float[] values) {
+		boolean retval = false;
+		float[] oldValues = lastEvents.get(key);
+		if (oldValues == null) {
+			retval = true;
+		} else {
+			for (int index = 0; index < values.length; index++) {
+				if (oldValues.length <= index) {
+					retval = true;
+					break;
+				}
+				float newValue = (values[index]*2f) / (values[index] + oldValues[index]);
+				float oldValue = (oldValues[index]*2f) / (values[index] + oldValues[index]);
+			
+				if (newValue > oldValue + 0.0001 && newValue < oldValue - 0.0001) {
+					retval = true;
+					break;
+				}
+			}
+		}
+		if (retval) {
+			lastEvents.put(key, values.clone());
+		}
+		return retval;
 	}
 
 	public void onProviderDisabled(String provider) { }

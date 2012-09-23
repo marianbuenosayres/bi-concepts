@@ -16,6 +16,7 @@ import com.plugtree.bi.publisher.api.TCPEventSender;
 public class SendEventService extends Service {
 
 	private boolean started;
+	private EventProducerListener listener = null;
 	
 	public SendEventService() {
 		super();
@@ -42,16 +43,20 @@ public class SendEventService extends Service {
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		EventProducerListener listener = new EventProducerListener(EventPublisherConfig.instance());
+		this.listener = new EventProducerListener(EventPublisherConfig.instance());
+		start(this.listener);
+        int retval = super.onStartCommand(intent, flags, startId);
+        this.started = true;
+		return retval;
+	}
+	
+	public void start(EventProducerListener listener) {
         registerSensor(listener, Sensor.TYPE_ACCELEROMETER, Sensor.TYPE_GRAVITY, 
         		Sensor.TYPE_GYROSCOPE, Sensor.TYPE_LIGHT, Sensor.TYPE_LINEAR_ACCELERATION, 
         		Sensor.TYPE_MAGNETIC_FIELD, Sensor.TYPE_ORIENTATION, Sensor.TYPE_PRESSURE, 
         		Sensor.TYPE_PROXIMITY, Sensor.TYPE_ROTATION_VECTOR, 
         		Sensor.TYPE_TEMPERATURE);
         registerGps(listener);
-        int retval = super.onStartCommand(intent, flags, startId);
-        this.started = true;
-		return retval;
 	}
 	
 	public boolean isStarted() {
@@ -83,5 +88,10 @@ public class SendEventService extends Service {
 		} else if (config.getScheme().equalsIgnoreCase("Bluetooth")) {
 			config.setEventSender(new BluetoothEventSender(config.getBluetoothServer()));
 		}
+	}
+
+	public void restart() {
+		// TODO Auto-generated method stub
+		
 	}
 }

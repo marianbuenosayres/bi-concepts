@@ -73,4 +73,11 @@ public class CEPEvent implements Externalizable {
 			out.writeObject(entry.getValue());
 		}
 	}
+
+	@Override
+	public String toString() {
+		return new StringBuilder("CEPEvent[payload:").
+			append(payload).append(";metadata:").
+			append(metadata).append("]").toString();
+	}
 }

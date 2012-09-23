@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<cloudbees-web-app xmlns="http://www.cloudbees.com/xml/webapp/1">     
+    <appid>events-listener</appid>
+    <context-param>
+        <param-name>application.environment</param-name>
+        <param-value>prod</param-value>
+    </context-param>
+    <resource name="jdbc/eventsdb" auth="Container" type="javax.sql.DataSource">
+        <param name="username" value="eventsusr" />
+        <param name="password" value="eventspwd" />
+        <param name="url" value="jdbc:cloudbees://eventsdb" />
+    </resource>
+</cloudbees-web-app>

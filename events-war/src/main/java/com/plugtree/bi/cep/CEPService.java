@@ -69,6 +69,7 @@ public class CEPService implements Runnable {
 	}
 
 	public FactHandle insert(Object event) {
+		System.out.println("NEW EVENT: " + event);
 		return ksession.insert(event);
 	}
 	

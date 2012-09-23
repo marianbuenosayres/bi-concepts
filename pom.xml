@@ -10,9 +10,16 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>plugtree-bi-api</module>
+        <module>plugtree-bi-core</module>
         <module>android-event-publisher</module>
         <module>events-war</module>
+        <module>events-war-start</module>
     </modules>
 
+    <properties>
+        <jbpm.version>5.3.0.Final</jbpm.version>
+    </properties>
+    
 </project>
 

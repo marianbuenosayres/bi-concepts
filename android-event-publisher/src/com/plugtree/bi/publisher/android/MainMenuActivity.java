@@ -79,7 +79,14 @@ public class MainMenuActivity extends Activity implements ServiceConnection, IsV
 			}
 		});
         
-        bindService(new Intent(MainMenuActivity.this, SendEventService.class), this, BIND_AUTO_CREATE);
+        Button restart = (Button) findViewById(R.id.restartButton);
+        restart.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View arg0) {
+				restartService();
+			}
+		});
+        
+        restartService();
 	}
 	
 	@Override
@@ -104,6 +111,14 @@ public class MainMenuActivity extends Activity implements ServiceConnection, IsV
 		visible = false;
 		new BackgroundTask(getApplicationContext(), this).execute(0);
 		moveTaskToBack(true);
+	}
+	
+	public void restartService() {
+		if (serviceBound) {
+			senderService.restart();
+		} else {
+			bindService(new Intent(MainMenuActivity.this, SendEventService.class), this, BIND_AUTO_CREATE);
+		}
 	}
 
 	@Override

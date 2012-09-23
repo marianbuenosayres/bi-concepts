@@ -9,6 +9,7 @@
     <string name="use_bluetooth">Use bluetooth when available</string>
     <string name="save_config">Save configuration</string>
     <string name="minimize">Minimize</string>
+    <string name="restart">Restart</string>
     <string name="configuration">Configuration</string>
     <string name="app_title">Event Publisher configuration</string>
     

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs='http://www.w3.org/2001/XMLSchema'
+           xmlns='http://www.plugtree.com/spec/EPMN/20120921/MODEL' 
+           targetNamespace='http://www.plugtree.com/spec/EPMN/20120921/MODEL' 
+           elementFormDefault='qualified'>
+
+  <xs:element name="definitions" type="definitionsType" />
+  <xs:attribute name="id" type="xs:string"/>
+
+  <xs:complexType name="importType">
+    <xs:attribute name="name" type="xs:string" use="required" />
+  </xs:complexType>
+
+  <!-- network information -->
+  <xs:complexType name="networkType">
+    <xs:sequence>
+      <xs:element name="channel" type="networkChannelType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="producer" type="networkProducerType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="consumer" type="networkConsumerType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="processor" type="networkProcessorType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="repository" type="networkRepositoryType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="connector" type="networkConnectorType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute ref="id" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="networkEventNodeType">
+    <xs:attribute ref="id" use="required" />
+    <xs:attribute name="name" type="xs:string" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="networkChannelType">
+    <xs:complexContent>
+      <xs:extension base="networkEventNodeType">
+        <!--TODO extend!!-->
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="networkProducerType">
+    <xs:complexContent>
+      <xs:extension base="networkEventNodeType">
+        <!--TODO extend!!-->
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="networkConsumerType">
+    <xs:complexContent>
+      <xs:extension base="networkEventNodeType">
+        <!--TODO extend!!-->
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="networkProcessorType">
+    <xs:complexContent>
+      <xs:extension base="networkEventNodeType">
+        <!--TODO extend!!-->
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="networkRepositoryType">
+    <xs:complexContent>
+      <xs:extension base="networkEventNodeType">
+        <!--TODO extend!!-->
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="fieldType" abstract="true"/>
+  <xs:complexType name="networkExpressionType">
+    <xs:complexContent mixed="true">
+      <xs:extension base="fieldType">
+        <xs:attribute name="language" type="xs:string" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+    <!--TODO extend!!-->
+  </xs:complexType>
+  <xs:complexType name="networkConnectorType">
+    <xs:complexContent>
+      <xs:extension base="networkEventNodeType">
+        <xs:sequence>
+          <xs:element name="expression" type="networkExpressionType" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+        <xs:attribute name="sourceRef" type="xs:string" use="required"/>
+        <xs:attribute name="targetRef" type="xs:string" use="required"/>
+        <xs:attribute name="fecth" type="xs:boolean"/>
+        <xs:attribute name="delay" type="xs:integer"/>
+        <!--TODO extend!!-->
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- diagram information -->
+  <xs:complexType name="diagramType">
+    <xs:sequence>
+      <xs:element name="plane" type="diagramPlaneType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="diagramPlaneType">
+    <xs:sequence>
+      <xs:element name="shape" type="diagramShapeType" minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element name="edge" type="diagramEdgeType" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="element" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="diagramShapeType">
+    <xs:sequence>
+      <xs:element name="bounds" type="diagramBoundsType"/>
+    </xs:sequence>
+    <xs:attribute name="element" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="diagramBoundsType">
+    <xs:attribute name="x" type="xs:integer" use="required" />
+    <xs:attribute name="y" type="xs:integer" use="required" />
+    <xs:attribute name="width" type="xs:integer" use="required" />
+    <xs:attribute name="height" type="xs:integer" use="required" />
+  </xs:complexType>
+  <xs:complexType name="diagramEdgeType">
+    <xs:sequence>
+      <xs:element name="point" type="diagramPointType" minOccurs="2" maxOccurs="2"/>
+    </xs:sequence>
+    <xs:attribute name="element" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="diagramPointType">
+    <xs:attribute name="x" type="xs:integer" use="required" />
+    <xs:attribute name="y" type="xs:integer" use="required" />
+  </xs:complexType>
+  
+  <xs:complexType name="definitionsType">
+    <xs:sequence>
+      <xs:element name="import" type="importType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="network" type="networkType"/>
+      <xs:element name="diagram" type="diagramType"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

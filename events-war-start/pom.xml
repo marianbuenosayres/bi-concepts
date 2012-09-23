@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.plugtree.bi</groupId>
+        <artifactId>plugtree-bi-parent</artifactId>
+        <version>1.0</version>
+    </parent>
+   
+    <artifactId>events-war-start</artifactId>
+    <name>Events WAR startup</name>
+    <url>http://plugtree.com</url>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.1</version>
+            <scope>test</scope>
+        </dependency>
+    
+        <!-- WAR Dependencies -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>events-war</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlet</artifactId>
+            <version>8.1.0.RC5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>8.1.0.RC5</version>
+        </dependency>
+    </dependencies>
+    
+    <build>
+        <plugins>  
+            <plugin>  
+                <groupId>org.codehaus.mojo</groupId>  
+                <artifactId>exec-maven-plugin</artifactId>  
+                <version>1.1.1</version>  
+               
+                <configuration>  
+                    <mainClass>com.plugtree.bi.startup.WebServerMain</mainClass>
+                    <!-- mainClass>salaboy.jbpm5.dev.guide.TasksListUI</mainClass -->
+                </configuration>  
+                  
+            </plugin>  
+        </plugins>  
+        
+    </build>
+</project>

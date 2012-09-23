@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions xmlns:ns1="http://www.plugtree.com/spec/EPMN/20120921/MODEL">
+  <network epmnid="myNetwork">
+    <producer epmnid="0xa00001" name="producer-1"/>
+    <consumer epmnid="0xb00001" name="consumer-1"/>
+    <connector sourceRef="0xa00001" targetRef="0xb00001" epmnid="0xc00001" name="connector-1">
+      <expression language="java"/>
+    </connector>
+  </network>
+  <diagram>
+    <plane element="myNetwork">
+      <shape element="0xa00001">
+        <bounds x="1" y="1" width="1" height="1"/>
+      </shape>
+      <shape element="0xb00001">
+        <bounds x="1" y="1" width="1" height="1"/>
+      </shape>
+      <edge element="0xc00001">
+        <point x="1" y="10"/>
+        <point x="10" y="0"/>
+      </edge>
+    </plane>
+  </diagram>
+</definitions>
+
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<definitions xmlns="http://www.plugtree.com/spec/EPMN/20120921/MODEL">
+  <network epmnid="myNetwork">
+    <producer epmnid="0xa00001" name="producer-1"/>
+    <consumer epmnid="0xb00001" name="consumer-1"/>
+    <connector sourceRef="0xa00001" targetRef="0xb00001" epmnid="0xc00001" name="connector-1">
+      <expression language="java"/>
+    </connector>
+  </network>
+  <diagram>
+    <plane element="myNetwork">
+      <shape element="0xa00001">
+        <bounds x="1" y="1" width="1" height="1"/>
+      </shape>
+      <shape element="0xb00001">
+        <bounds x="1" y="1" width="1" height="1"/>
+      </shape>
+      <edge element="0xc00001">
+        <point x="1" y="10"/>
+        <point x="10" y="0"/>
+      </edge>
+    </plane>
+  </diagram>
+</definitions>
+
+
+
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns1:definitions xmlns:ns1="http://www.plugtree.com/spec/EPMN/20120921/MODEL">
+  <ns1:network ns1:id="myNetwork">
+    <ns1:producer ns1:id="0xa00001" name="producer-1"/>
+    <ns1:consumer ns1:id="0xb00001" name="consumer-1"/>
+    <ns1:connector sourceRef="0xa00001" targetRef="0xb00001" ns1:id="0xc00001" name="connector-1">
+      <ns1:expression language="java">System.out.println("hello");</ns1:expression>
+    </ns1:connector>
+  </ns1:network>
+  <ns1:diagram>
+    <ns1:plane element="myNetwork">
+      <ns1:shape element="0xa00001"><ns1:bounds x="1" y="1" width="1" height="1"/></ns1:shape>
+      <ns1:shape element="0xb00001"><ns1:bounds x="1" y="1" width="1" height="1"/></ns1:shape>
+      <ns1:edge element="0xc00001">
+        <ns1:point x="1" y="10"/>
+        <ns1:point x="10" y="0"/>
+      </ns1:edge>
+    </ns1:plane>
+  </ns1:diagram>
+</ns1:definitions>
+
+
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns1:definitions xmlns:ns1="http://www.plugtree.com/spec/EPMN/20120921/MODEL"><ns1:network ns1:id="myNetwork"><ns1:producer ns1:id="0xa00001" name="producer-1"/><ns1:consumer ns1:id="0xb00001" name="consumer-1"/><ns1:connector sourceRef="0xa00001" targetRef="0xb00001" ns1:id="0xc00001" name="connector-1"><ns1:expression language="java">System.out.println("hello");</ns1:expression></ns1:connector></ns1:network><ns1:diagram><ns1:plane element="myNetwork"><ns1:shape element="0xa00001"><ns1:bounds x="1" y="1" width="1" height="1"/></ns1:shape><ns1:shape element="0xb00001"><ns1:bounds x="1" y="1" width="1" height="1"/></ns1:shape><ns1:edge element="0xc00001"><ns1:point x="1" y="10"/><ns1:point x="10" y="0"/></ns1:edge></ns1:plane></ns1:diagram></ns1:definitions>
+

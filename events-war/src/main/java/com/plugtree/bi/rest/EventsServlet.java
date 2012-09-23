@@ -27,6 +27,7 @@ public class EventsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	String userId = req.getParameter("userId");
     	String content = readInput(req);
+	System.out.println("USER_ID="+userId+"\nCONTENT="+content);
         String type = req.getHeader("Content-Type");
         try {
         	Map<String, float[]> data = parse(content, type);

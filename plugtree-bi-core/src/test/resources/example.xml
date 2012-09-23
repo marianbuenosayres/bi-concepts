@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<definitions xmlns="http://www.plugtree.com/spec/EPMN/20120921/MODEL">
+  <import name="com.plugtree.bi.MyClass"/>
+
+  <network id="myNetwork">
+
+    <producer id="0xa00001" name="producer-1">
+      <!-- TODO -->
+    </producer>
+    <producer id="0xa00002" name="producer-2">
+      <!-- TODO -->
+    </producer>
+ 
+    <processor id="0xc00001" name="processor-1">
+      <!-- TODO -->
+    </processor>
+
+    <repository id="0xd00001" name="repo-1">
+      <!-- TODO -->
+    </repository>
+
+    <channel id="0xe00001" name="repo-1">
+      <!-- TODO -->
+    </channel>
+
+    <consumer id="0xb00001" name="consumer-1">
+      <!-- TODO -->
+    </consumer>
+
+    <connector id="0xf00001" name="connector-1" sourceRef="0xa00001" targetRef="0xe00001">
+      <!-- TODO -->
+    </connector>
+    <connector id="0xf00002" name="connector-2" sourceRef="0xa00002" targetRef="0xe00001">
+      <!-- TODO -->
+    </connector>
+    <connector id="0xf00003" name="connector-3" sourceRef="0xe00001" targetRef="0xc00001">
+      <!-- TODO -->
+    </connector>
+    <connector id="0xf00004" name="connector-4" sourceRef="0xc00001" targetRef="0xd00001">
+      <!-- TODO -->
+    </connector>
+    <connector id="0xf00005" name="connector-5" sourceRef="0xd00001" targetRef="0xb00001" fetch="true" delay="5000">
+      <expression language="java"><![CDATA[System.out.println("Hello");]]></expression>
+      <!-- TODO -->
+    </connector>
+
+  </network>
+
+  <diagram>
+    <plane element="myNetwork">
+      <shape element="0xa00001">
+        <bounds x="16" y="96" width="48" height="48"/>
+      </shape>
+      <shape element="0xa00002">
+        <bounds x="16" y="196" width="48" height="48"/>
+      </shape>
+      <shape element="0xb00001">
+        <bounds x="316" y="96" width="48" height="48"/>
+      </shape>
+      <shape element="0xc00001">
+        <bounds x="216" y="96" width="48" height="48"/>
+      </shape>
+      <shape element="0xd00001">
+        <bounds x="216" y="196" width="48" height="48"/>
+        <!-- TODO -->
+      </shape>
+      <shape element="0xe00001">
+        <bounds x="116" y="96" width="48" height="48"/>
+      </shape>
+     
+      <edge element="0xf00001">
+        <point x="40" y="120"/>
+        <point x="140" y="120"/>
+      </edge>
+      <edge element="0xf00002">
+        <point x="40" y="220"/>
+        <point x="140" y="120"/>
+      </edge>
+      <edge element="0xf00003">
+        <point x="140" y="120"/>
+        <point x="240" y="120"/>
+      </edge>
+      <edge element="0xf00004">
+        <point x="240" y="120"/>
+        <point x="240" y="220"/>
+      </edge>
+      <edge element="0xf00005">
+        <point x="240" y="220"/>
+        <point x="140" y="320"/>
+      </edge>
+    </plane>
+  </diagram>
+</definitions>
