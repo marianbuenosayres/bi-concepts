@@ -54,7 +54,9 @@ public class EventPublisherConfig {
 	}
 	
 	public synchronized void setEventSender(EventSender eventSender) {
+		LogEventSender oldSender = this.eventSender;
 		this.eventSender = new LogEventSender(eventSender);
+		this.eventSender.updateEvents(oldSender.getEvents());
 	}
 	
 	public synchronized void setHttpUrl(String httpUrl) {

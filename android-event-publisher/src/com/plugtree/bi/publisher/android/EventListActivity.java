@@ -62,24 +62,25 @@ public class EventListActivity extends Activity {
         	params.leftMargin = 3;
         	
 	        for (final EventRow event : events) {
-	        	TableRow row = new TableRow(getApplicationContext());
-	        	row.setLayoutParams(params);
-	        	
-	        	TextView userId = new TextView(getApplicationContext());
-	        	userId.setText(event.getUserId());
-	        	TextView key = new TextView(getApplicationContext());
-	        	key.setText(event.getKey());
-	        	Button button = new Button(getApplicationContext());
-	        	button.setText(R.string.event_list_databutton_text);
-	        	button.setOnClickListener(new View.OnClickListener() {
-					public void onClick(View v) {
-						showAlert("Data", event.getData());
-					}
-				});
-	        	row.addView(userId);
-	        	row.addView(key);
-	        	row.addView(button);
-	        	table.addView(row);
+			for (Map.Entry<String, float[]> entry : event.getData().entrySet()) {
+				TableRow row = new TableRow(getApplicationContext());
+				row.setLayoutParams(params);
+				TextView userId = new TextView(getApplicationContext());
+				userId.setText(event.getUserId());
+				TextView key = new TextView(getApplicationContext());
+				key.setText(entry.getKey());
+	        		Button button = new Button(getApplicationContext());
+		        	button.setText(R.string.event_list_databutton_text);
+		        	button.setOnClickListener(new View.OnClickListener() {
+						public void onClick(View v) {
+							showAlert("Data", event.getData());
+						}
+					});
+		        	row.addView(userId);
+	        		row.addView(key);
+	        		row.addView(button);
+		        	table.addView(row);
+			}
 	        }
         } else {
         	TextView noEvents = new TextView(this);

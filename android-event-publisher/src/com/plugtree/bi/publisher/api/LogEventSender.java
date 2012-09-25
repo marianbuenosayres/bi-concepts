@@ -36,4 +36,14 @@ public class LogEventSender implements EventSender {
 	public List<EventRow> getEvents() {
 		return this.events;
 	}
+
+	public void updateEvents(List<EventRow> oldEvents) {
+		if (this.decorated != null) {
+			for (EventRow oldEvent : oldEvents) {
+				String json = JSONConverter.toJsonFromValues(oldEvent.getData());
+				this.decorated.sendEvent(oldEvent.getUserId(), json);
+			}
+		}
+		this.events.addAll(oldEvents);
+	}
 }
