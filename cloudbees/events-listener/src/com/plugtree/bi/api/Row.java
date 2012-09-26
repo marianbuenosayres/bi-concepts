@@ -4,12 +4,12 @@ public class Row {
 
 	private long id;
 	private String key;
-	private float value1;
-	private float value2;
-	private float value3;
-	private float value4;
-	private float value5;
-	private float value6;
+	private float value1 = Float.MIN_VALUE;
+	private float value2 = Float.MIN_VALUE;
+	private float value3 = Float.MIN_VALUE;
+	private float value4 = Float.MIN_VALUE;
+	private float value5 = Float.MIN_VALUE;
+	private float value6 = Float.MIN_VALUE;
 
 	public long getId() {
 		return id;

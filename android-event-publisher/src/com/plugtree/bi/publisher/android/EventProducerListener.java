@@ -18,6 +18,7 @@ public class EventProducerListener implements SensorEventListener, LocationListe
 	private final EventPublisherConfig config;
 	
 	private Map<String, float[]> lastEvents = new HashMap<String, float[]>();
+	private Map<String, float[]> accuracies = new HashMap<String, float[]>();
 	
 	public EventProducerListener(EventPublisherConfig config) {
 		this.config = config;
@@ -25,52 +26,29 @@ public class EventProducerListener implements SensorEventListener, LocationListe
 
 	public void onAccuracyChanged(Sensor sensor, int accuracy) { }
 
+	protected String getSensorKey(int sensorType) {
+		String retval = null;
+		switch (sensorType) {
+		case Sensor.TYPE_ACCELEROMETER: retval = "sensorAccelerometer"; break;
+		case Sensor.TYPE_GRAVITY: retval = "sensorGravity"; break;
+		case Sensor.TYPE_GYROSCOPE: retval = "sensorGyroscope"; break;
+		case Sensor.TYPE_LIGHT: retval = "sensorLight"; break;
+		case Sensor.TYPE_LINEAR_ACCELERATION: retval = "sensorLinearAcceleration"; break;
+		case Sensor.TYPE_MAGNETIC_FIELD: retval = "sensorMagneticField"; break;
+		case Sensor.TYPE_ORIENTATION: retval = "sensorOrientation"; break;
+		case Sensor.TYPE_PRESSURE: retval = "sensorPressure"; break;
+		case Sensor.TYPE_PROXIMITY: retval = "sensorProximity"; break;
+		case Sensor.TYPE_ROTATION_VECTOR: retval = "sensorRotationVector"; break;
+		case Sensor.TYPE_TEMPERATURE: retval = "sensorTemperature"; break;
+		}
+		return retval;
+	}
+	
 	public void onSensorChanged(SensorEvent event) {
 		Map<String, float[]> data = new HashMap<String, float[]>();
-		if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-			if (hasChanged("sensorAccelerometer", event.values)) {
-				data.put("sensorAccelerometer", event.values);
-			}
-		} else if (event.sensor.getType() == Sensor.TYPE_GRAVITY) {
-			if (hasChanged("sensorGravity", event.values)) {
-				data.put("sensorGravity", event.values);
-			}
-		} else if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
-			if (hasChanged("sensorGyroscope", event.values)) {
-				data.put("sensorGyroscope", event.values);
-			}
-		} else if (event.sensor.getType() == Sensor.TYPE_LIGHT) {
-			if (hasChanged("sensorLight", event.values)) {
-				data.put("sensorLight", event.values);
-			}
-		} else if (event.sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
-			if (hasChanged("sensorAcceleration", event.values)) {
-				data.put("sensorAcceleration", event.values);
-			}
-		} else if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
-			if (hasChanged("sensorMagneticField", event.values)) {
-				data.put("sensorMagneticField", event.values);
-			}
-		} else if (event.sensor.getType() == Sensor.TYPE_ORIENTATION) {
-			if (hasChanged("sensorOrientation", event.values)) {
-				data.put("sensorOrientation", event.values);
-			}
-		} else if (event.sensor.getType() == Sensor.TYPE_PRESSURE) {
-			if (hasChanged("sensorPressure", event.values)) {
-				data.put("sensorPressure", event.values);
-			}
-		} else if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
-			if (hasChanged("sensorProximity", event.values)) {
-				data.put("sensorProximity", event.values);
-			}
-		} else if (event.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
-			if (hasChanged("sensorRotationVector", event.values)) {
-				data.put("sensorRotationVector", event.values);
-			}
-		} else if (event.sensor.getType() == Sensor.TYPE_TEMPERATURE) {
-			if (hasChanged("sensorTemperature", event.values)) {
-				data.put("sensorTemperature", event.values);
-			}
+		String key = getSensorKey(event.sensor.getType());
+		if (key != null && hasChanged(key, event.values)) {
+			data.put(key, event.values);
 		}
 		if (!data.isEmpty()) {
 			long time = System.currentTimeMillis();
@@ -121,8 +99,10 @@ public class EventProducerListener implements SensorEventListener, LocationListe
 				}
 				float newValue = (values[index]*2f) / (values[index] + oldValues[index]);
 				float oldValue = (oldValues[index]*2f) / (values[index] + oldValues[index]);
-			
-				if (newValue > oldValue + 0.0001 && newValue < oldValue - 0.0001) {
+				float[] accuracies = this.accuracies.get(key);
+				float accuracy = (accuracies.length > index) ? accuracies[index] : 0.0001f;
+				//If value has changed by more than expected accuracy (0.1% being default), consider it changed
+				if (newValue > oldValue + accuracy || newValue < oldValue - accuracy) {
 					retval = true;
 					break;
 				}
@@ -133,11 +113,33 @@ public class EventProducerListener implements SensorEventListener, LocationListe
 		}
 		return retval;
 	}
-
+	
 	public void onProviderDisabled(String provider) { }
 
 	public void onProviderEnabled(String provider) { }
 
 	public void onStatusChanged(String provider, int status, Bundle extras) { }
+
+	/* for quicktest purposes only */
+	public static void main(String[] args) {
+		EventProducerListener listener = new EventProducerListener(EventPublisherConfig.instance());
+		
+		float[] values1 = new float[] {1.0f, 2.0f, 3.0f};
+		float[] values2 = new float[] {1.0f, 2.0001f, 3.0f};
+		float[] values3 = new float[] {1.1f, 2.0f, 3.0f};
+		
+		boolean change1 = listener.hasChanged("prueba", values1);
+		boolean change2 = listener.hasChanged("prueba", values2);
+		boolean change3 = listener.hasChanged("prueba", values3);
+		
+		System.out.println("change1 tiene que ser true y es " + change1);
+		System.out.println("change2 tiene que ser false y es " + change2);
+		System.out.println("change3 tiene que ser true y es " + change3);
+	}
+
+	public void setAccuracies(int sensorType, float[] accuracies) {
+		String key = getSensorKey(sensorType);
+		this.accuracies.put(key, accuracies);
+	}
 
 }

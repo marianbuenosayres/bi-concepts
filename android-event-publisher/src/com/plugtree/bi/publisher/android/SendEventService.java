@@ -51,11 +51,17 @@ public class SendEventService extends Service {
 	}
 	
 	public void start(EventProducerListener listener) {
-        registerSensor(listener, Sensor.TYPE_ACCELEROMETER, Sensor.TYPE_GRAVITY, 
-        		Sensor.TYPE_GYROSCOPE, Sensor.TYPE_LIGHT, Sensor.TYPE_LINEAR_ACCELERATION, 
-        		Sensor.TYPE_MAGNETIC_FIELD, Sensor.TYPE_ORIENTATION, Sensor.TYPE_PRESSURE, 
-        		Sensor.TYPE_PROXIMITY, Sensor.TYPE_ROTATION_VECTOR, 
-        		Sensor.TYPE_TEMPERATURE);
+		registerSensor(listener, Sensor.TYPE_ACCELEROMETER, 0.1f, 0.1f, 0.1f); //10% accuracy on each axis
+		registerSensor(listener, Sensor.TYPE_GRAVITY, 0.3f, 0.3f, 0.3f); //30% accuracy on each axis
+		registerSensor(listener, Sensor.TYPE_LIGHT, 0.1f); //10% accuracy for luminaries
+		registerSensor(listener, Sensor.TYPE_LINEAR_ACCELERATION, 0.5f, 0.5f, 0.5f); //50% accuracy on each axis
+		registerSensor(listener, Sensor.TYPE_MAGNETIC_FIELD, 100f, 0.1f, 0.2f); //any value for z axis, 10% and 20% for other axis
+		registerSensor(listener, Sensor.TYPE_ORIENTATION, 0.05f, 0.05f, 0.05f); //5% accuracy on each axis
+		registerSensor(listener, Sensor.TYPE_ROTATION_VECTOR, 1f, 1f, 1f); //100% accuracy on each axis (almost nothing
+		registerSensor(listener, Sensor.TYPE_TEMPERATURE, 0,01f); //1% accuracy for degrees
+		registerSensor(listener, Sensor.TYPE_GYROSCOPE, 0.3f, 0.3f, 0.3f); //30% accuracy on each axis
+		registerSensor(listener, Sensor.TYPE_PRESSURE, 0.2f);//20% accuracy (few models handle this variable anyway)
+		registerSensor(listener, Sensor.TYPE_PROXIMITY, 0.2f); //20% accuracy
         registerGps(listener);
 	}
 	
@@ -63,17 +69,12 @@ public class SendEventService extends Service {
 		return started;
 	}
 	
-    protected void registerSensor(EventProducerListener listener, int... sensorTypes) {
-    	SensorManager manager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
-    	
-    	int delay = SensorManager.SENSOR_DELAY_NORMAL;
-    	if (sensorTypes != null) {
-    		for (int type : sensorTypes) {
-    			manager.registerListener(listener, manager.getDefaultSensor(type), delay);
-    		}
-    	}
-    }
-
+	protected void registerSensor(EventProducerListener listener, int sensorType, float... accuracies) {
+		SensorManager manager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
+		listener.setAccuracies(sensorType, accuracies);
+		manager.registerListener(listener, manager.getDefaultSensor(sensorType), SensorManager.SENSOR_DELAY_NORMAL);
+	}
+	
     protected void registerGps(EventProducerListener listener) {
     	LocationManager manager = (LocationManager) getSystemService(Service.LOCATION_SERVICE);
     	manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
@@ -91,7 +92,7 @@ public class SendEventService extends Service {
 	}
 
 	public void restart() {
-		// TODO Auto-generated method stub
-		
+		EventPublisherConfig.instance().getLogEventSender().getEvents().clear();
+		updateEventSender();
 	}
 }

@@ -9,9 +9,17 @@
     <servlet-name>EventsServlet</servlet-name>  
     <servlet-class>com.plugtree.bi.rest.EventsServlet</servlet-class>  
   </servlet>
+  <servlet>
+    <servlet-name>PopServlet</servlet-name>
+    <servlet-class>com.plugtree.bi.rest.PopServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>EventsServlet</servlet-name>
     <url-pattern>/events</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PopServlet</servlet-name>
+    <url-pattern>/pop</url-pattern>
   </servlet-mapping>
   <resource-ref>
     <res-ref-name>jdbc/eventsdb</res-ref-name>

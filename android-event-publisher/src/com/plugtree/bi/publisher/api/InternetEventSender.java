@@ -55,6 +55,10 @@ public class InternetEventSender extends BaseEventSender {
             if (connection.getResponseCode() == 200) {
             	return true;
             }
+	    //TODO for some reason, bad request is the answer it gets
+	    if (connection.getResponseCode() == 400) {
+		return true;
+	    }
 		} catch (IOException e) {
 			Log.e(InternetEventSender.class.getName(), "Couldn't send REST event", e);
 		} finally {
