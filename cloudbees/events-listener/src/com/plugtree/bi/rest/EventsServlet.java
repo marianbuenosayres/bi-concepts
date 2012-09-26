@@ -1,8 +1,6 @@
 package com.plugtree.bi.rest;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,12 +26,6 @@ public class EventsServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 4298606551005801508L;
 	
-	/*private String dbname = "eventsdb";
-	private String password = "eventsusr";
-	private String user = "eventspwd";
-	private String server = "ec2-23-21-211-172.compute-1.amazonaws.com";
-	private int port = 3306;*/
-	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		new EventDAO().init();
@@ -43,18 +35,13 @@ public class EventsServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		try {
 			String userId = req.getParameter("userId");
-			System.out.println("USER ID = " + userId);
 			String content = readInput(req);
-			System.out.println("CONTENT = " + content);
 			Map<String, float[]> data = parse(content, req.getHeader("Content-Type"));
-			System.out.println("DATA = " + data);
 			Event event = asEvent(userId, data);
-			System.out.println("EVENT = " + event);
 			new EventDAO().store(event);
-			System.out.println("STORED");
 		} catch (Exception e) {
-			System.out.println("Problem storing event");
-			e.printStackTrace(System.out);
+			System.err.println("Problem storing event");
+			e.printStackTrace(System.err);
 		}
 	}
 	

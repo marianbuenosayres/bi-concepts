@@ -38,9 +38,9 @@ public final class R {
         public static final int eventListReloadButton=0x7f0a0009;
         public static final int eventListTable=0x7f0a0007;
         public static final int eventListTitle=0x7f0a0006;
+        public static final int exitButton=0x7f0a000e;
         public static final int menu_settings=0x7f0a0013;
         public static final int minimizeButton=0x7f0a000d;
-        public static final int restartButton=0x7f0a000e;
         public static final int space=0x7f0a0001;
         public static final int spaceConnectionConf=0x7f0a0002;
         public static final int title=0x7f0a0000;
@@ -78,6 +78,7 @@ public final class R {
         public static final int event_list_key_column=0x7f060016;
         public static final int event_list_title=0x7f060014;
         public static final int event_list_userId_column=0x7f060015;
+        public static final int exit=0x7f060008;
         public static final int go_back=0x7f060019;
         public static final int hello_world=0x7f060001;
         public static final int http_layout_title=0x7f060011;
@@ -88,7 +89,6 @@ public final class R {
         public static final int new_events=0x7f06001b;
         public static final int no_events_to_display=0x7f060023;
         public static final int reload_list=0x7f06001a;
-        public static final int restart=0x7f060008;
         public static final int save_config=0x7f060006;
         public static final int sendEventUrl=0x7f06000b;
         public static final int tcp_ip_port_param=0x7f06001f;
