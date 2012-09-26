@@ -19,6 +19,7 @@ public class EventProducerListener implements SensorEventListener, LocationListe
 	
 	private Map<String, float[]> lastEvents = new HashMap<String, float[]>();
 	private Map<String, float[]> accuracies = new HashMap<String, float[]>();
+	private Map<String, Long> lastOcurrence = new HashMap<String, Long>();
 	
 	public EventProducerListener(EventPublisherConfig config) {
 		this.config = config;
@@ -50,8 +51,8 @@ public class EventProducerListener implements SensorEventListener, LocationListe
 		if (key != null && hasChanged(key, event.values)) {
 			data.put(key, event.values);
 		}
-		if (!data.isEmpty()) {
-			long time = System.currentTimeMillis();
+		long time = System.currentTimeMillis();
+		if (!data.isEmpty() && timeChanged(key, time)) {
 			data.put("sensorTime", new float[] {Float.valueOf(time)});
 			config.getEventSender().sendEvent(config.getUserId(), JSONConverter.toJsonFromValues(data));
 		}
@@ -59,28 +60,42 @@ public class EventProducerListener implements SensorEventListener, LocationListe
 
 	public void onLocationChanged(Location location) {
 		Map<String, float[]> data = new HashMap<String, float[]>();
-		if (hasChanged("gpsLatitude", new float[] { (float) location.getLatitude() })) {
-			data.put("gpsLatitude", new float[] { (float) location.getLatitude() });
-		}
-		if (hasChanged("gpsLongitude", new float[] { (float) location.getLongitude() })) {
-			data.put("gpsLongitude", new float[] { (float) location.getLongitude() });
-		}
-		if (location.hasAltitude() && hasChanged("gpsAltitude", new float[] { (float) location.getAltitude() })) {
+		data.put("gpsLatitude", new float[] { (float) location.getLatitude() });
+		data.put("gpsLongitude", new float[] { (float) location.getLongitude() });
+		if (location.hasAltitude()) {
 			data.put("gpsAltitude", new float[] { (float) location.getAltitude() });
 		}
-		if (location.hasAccuracy() && hasChanged("gpsAccuracy", new float[] { location.getAccuracy() })) {
+		if (location.hasAccuracy()) {
 			data.put("gpsAccuracy", new float[] { location.getAccuracy() });
 		}
-		if (location.hasSpeed() && hasChanged("gpsSpeed", new float[] { location.getSpeed() })) {
+		if (location.hasSpeed()) {
 			data.put("gpsSpeed", new float[] { location.getSpeed() });
 		}
-		if (location.hasBearing() && hasChanged("gpsBearing", new float[] { location.getBearing() })) {
+		if (location.hasBearing()) {
 			data.put("gpsBearing", new float[] { location.getBearing() });
 		}
-		if (!data.isEmpty()) {
+		if (!data.isEmpty() && timeChanged("gps", location.getTime())) {
 			data.put("gpsTime", new float[] { location.getTime() });
 			config.getEventSender().sendEvent(config.getUserId(), JSONConverter.toJsonFromValues(data));
 		}
+	}
+	
+	/**
+	 * Only pay attention if time of the reading has changed
+	 */
+	protected boolean timeChanged(String key, long time) {
+		boolean retval = false;
+		Long lastTime = lastOcurrence.get(key);
+		if (lastTime == null) {
+			retval = true;
+		} else if (time != lastTime) {
+			retval = true;
+		}
+		if (retval) {
+			lastOcurrence.put(key, time);
+		}
+		return retval;
+		
 	}
 	
 	/**

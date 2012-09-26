@@ -82,7 +82,7 @@ public class MainMenuActivity extends Activity implements ServiceConnection, IsV
         Button exit = (Button) findViewById(R.id.exitButton);
         exit.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View arg0) {
-				finish();
+				stopApp();
 			}
 		});
         
@@ -111,6 +111,13 @@ public class MainMenuActivity extends Activity implements ServiceConnection, IsV
 		visible = false;
 		new BackgroundTask(getApplicationContext(), this).execute(0);
 		moveTaskToBack(true);
+	}
+
+	public void stopApp() {
+		Intent intent = new Intent(MainMenuActivity.this, FinActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
+		finish();
 	}
 	
 	public void startService() {

@@ -180,7 +180,7 @@ public class EventDAO implements Runnable {
 			rs = stmt.executeQuery("select ID, " +
 					"KEYSTRING, VALUE_1, VALUE_2, VALUE_3, " +
 					"VALUE_4, VALUE_5, VALUE_6 " +
-					"from eventsdb.EVENT_DATA order by ID");
+					"from eventsdb.EVENT_DATA order by ID desc");
 			while (rs.next()) {
 				Row row = new Row();
 				row.setId(rs.getLong(1));

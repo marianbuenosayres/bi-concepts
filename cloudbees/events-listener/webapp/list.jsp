@@ -21,7 +21,6 @@
 				border-left: 1px solid #6A829E;
 				border-right: 1px solid #6A829E;
 				border-bottom: 1px solid #6A829E;
-				height: 800px;
 			}
 			h2.title { margin: 0px; padding: 20px;}
 			
@@ -52,7 +51,7 @@
 			<li><a href="http://wiki.stax.net/w/index.php/Main_Page">Stax Developer Wiki</a></li>
 		</ul>		
 		<h3>Runtime information</h3>
-		<table cellpadding="0" cellspacing="0">
+		<table cellpadding="1" cellspacing="1">
 			<tr><td class="col1">Environment:</td><td class="col2"><%=pageContext.getServletContext().getInitParameter("application.environment") %></td></tr>
 			<tr><td class="col1">Environment2:</td><td class="col2"><%=pageContext.getServletContext().getInitParameter("application.environment2") %></td></tr>
 			<tr><td class="col1">Server:</td><td class="col2"><%= java.net.InetAddress.getLocalHost().getHostName() %></td></tr>
